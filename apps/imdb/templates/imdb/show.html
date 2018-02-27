@@ -43,7 +43,46 @@
     <br>
     <a href="{{movies.id}}/add_list">Add to Watchlist</a>
     </p>
-
+    <hr>
+    <h3>Reviews</h3>
+    {% for review in reviews %}
+    User: {{review.reviewer.first_name}} {{review.reviewer.last_name}}
+    <br>
+    Rating: {{review.rev_score}}
+    <br>
+    Comment: {{review.rev_text}}
+    <br>
+    {% if review.reviewer.id == curuser %}
+    <a href="{{movies.id}}/{{review.id}}/rm_review">Delete</a>
+    <br>
+    {% endif %}
+    <br>
+    {% endfor %}
+    <hr>
+    <h3>Leave a Review?</h3>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <form action='{{movies.id}}/add_review' method="POST" id="rev_add">
+        {% csrf_token %}
+        <pre class="tab">        1   2   3   4   5</pre>
+        <label for="rev_score">Rating:
+            <input type="range" name="rev_score" id="rev_score" min="1" max="5" value="3">
+        </label>
+        <br>
+        <label for="rev_text">Review:
+            <textarea rows="4" cols="50" name="rev_text" id="rev_text" form="rev_add"></textarea>
+        </label>
+        <br>
+        <input type="hidden" name="curuser" value="{{request.session.curuser}}">
+        <br>
+        <input type="hidden" name="movie" value="{{movies.id}}">
+        <input type="submit" value="Add Review">
+    </form>
 
 
 

@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^(?P<id>\d+)$', views.show),
     url(r'^(?P<id>\d+)/add_list$', views.add_list),
     url(r'^(?P<id>\d+)/rm_list$', views.rm_list),
+    url(r'^(?P<id>\d+)/add_review$', views.add_review),
+    url(r'^(?P<id>\d+)/(?P<rev>\d+)/rm_review$', views.rm_review),
 ]

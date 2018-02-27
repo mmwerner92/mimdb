@@ -27,12 +27,29 @@ class MovManager(models.Manager):
         if (Movie.objects.filter(mov_title=post_data['mov_title']).count()>0):
             errors.append("That movie is already in our database!")
         if not len(errors):
-            Movie.objects.create(mov_title=post_data['mov_title'],
+            Movie.objects.create(
+            mov_title=post_data['mov_title'],
             mov_img=post_data['mov_img'],
             mov_release=post_data['mov_release'],
             mov_director=post_data['mov_director'],
             mov_descript=post_data['mov_descript'])
         return errors    
+
+class RevManager(models.Manager):
+    def revvalidate(self, post_data):
+        errors = []
+        if len(post_data['rev_text']) < 1:
+            errors.append("Please add some text!")     
+        if (Review.objects.filter(reviewer=Users.objects.get(id=post_data['curuser'])).count()>0):
+            errors.append("You have already left a review for this film!")
+        if not len(errors):
+            Review.objects.create(
+            rev_text=post_data['rev_text'],
+            rev_score=post_data['rev_score'],
+            reviewer=Users.objects.get(id=post_data['curuser']),
+            movie=Movie.objects.get(id=post_data['movie']))
+        return errors    
+
 
 class Movie(models.Model):
     mov_title = models.CharField(max_length=255)
@@ -44,3 +61,12 @@ class Movie(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = MovManager()
+
+class Review(models.Model):
+    rev_text = models.TextField()
+    rev_score = models.IntegerField()
+    reviewer = models.ForeignKey(Users, related_name="user_review")
+    movie = models.ForeignKey(Movie, related_name="movie_review")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+    objects = RevManager()
