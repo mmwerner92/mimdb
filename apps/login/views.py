@@ -41,6 +41,7 @@ def login(request):
     else:
         request.session['curuser']=Users.objects.filter(email=request.POST['email_login'])[0].id
         request.session['access']='login'
+        # TEST 
         return redirect('/')
 
 
