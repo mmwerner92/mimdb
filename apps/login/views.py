@@ -25,7 +25,7 @@ def register(request):
     if len(errors):
         for error in errors:
             messages.error(request, error)
-        return redirect("/")
+        return redirect('/reg/regpage/')
     else:
         request.session['curuser']=(Users.objects.get(email=request.POST['email'])).id
         request.session['access']='registration'
@@ -37,7 +37,7 @@ def login(request):
     if len(errors):
         for error in errors:
             messages.error(request, error)
-        return redirect('/')
+        return redirect('/reg/')
     else:
         request.session['curuser']=Users.objects.filter(email=request.POST['email_login'])[0].id
         request.session['access']='login'
