@@ -15,6 +15,11 @@
         <button>Home</button>
     </form>
 
+    <form action='/reg/{{curuser}}' method="POST">
+        {% csrf_token %}
+        <button>Profile</button>
+    </form>
+
     <form action='/search' method="POST">
         {% csrf_token %}
         <input type="text" name="search" id="search" value="movies">

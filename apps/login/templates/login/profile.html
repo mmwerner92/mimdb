@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <title>Profile</title>
+</head>
+
+<body>
+    <h1>Profile</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <form action='/'+{{curuser}} method="POST">
+        {% csrf_token %}
+        <button>Profile</button>
+    </form>
+
+    <form action='/search' method="POST">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" value="movies">
+        <input type="submit" value="Search">
+    </form>
+    
+    <form action='/watchlist' method="POST">
+        {% csrf_token %}
+        <button>Watchlist</button>
+    </form>
+
+    <form action='/{{reg}}' method="POST">
+        {% csrf_token %}
+        <button>{{label}}</button>
+    </form>
+
+    <hr>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <h3>Edit User {{user.id}}</h3>
+    <form action='/reg/{{user.id}}/update' method='POST'>
+        {% csrf_token %}
+        <label for="first_name">First Name:
+            <input type="text" name="first_name" id="first_name" value={{user.first_name}}>
+        </label>
+        <br>
+        <label for="last_name">Last Name:
+            <input type="text" name="last_name" id="last_name" value={{user.last_name}}>
+        </label>
+        <br>
+        <label for="email">Email:
+            <input type="text" name="email" id="email" value={{user.email}}>
+        </label>
+        <br>
+        <input type="submit" value="Update">
+    </form>
+</body> 
+
+</html>
+
+
+</body>
+
+</html>

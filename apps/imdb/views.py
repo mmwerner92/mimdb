@@ -17,8 +17,6 @@ def index(request):
             "label":"Log Out",
             "curuser":request.session['curuser']
         }
-        print request.session['curuser']
-        print "requested curuser"
     else:
         context = {
             "reg":"reg/",
