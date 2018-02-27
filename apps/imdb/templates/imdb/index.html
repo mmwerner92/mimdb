@@ -1,0 +1,79 @@
+<html>
+
+<head>
+    <title>Homepage</title>
+</head>
+
+<body>
+    <h1>Homepage</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <form action='/search' method="POST">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" value="movies">
+        <input type="submit" value="Search">
+    </form>
+    
+    <form action='/watchlist' method="POST">
+        {% csrf_token %}
+        <button>Watchlist</button>
+    </form>
+
+    <form action='/{{reg}}' method="POST">
+        {% csrf_token %}
+        <button>{{label}}</button>
+    </form>
+
+
+
+
+
+    <hr>
+
+    <!-- API Entries --> 
+    <h2>Sample API Entries</h2>
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Release Date</th>
+            <th>Options</th>
+        </tr>
+        {% for task in user.assigned.all %}
+        <tr>
+            <td>{{task.task_name}}</td>
+            <td>{{task.task_time}}</td>
+            <td>{{task.task_date}}</td>
+            <td>{{task.task_status}}</td>
+            <td>
+                <a href="/belt/{{task.id}}/edit">Edit</a>
+                <a href="/belt/{{task.id}}/delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% for user in users %}
+    <div class=userbox>
+        User:
+        <a href="/user/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
+        <br> {{user.email}}
+        <br> {{user.created_at}}
+        <br>
+        <a href="/user/{{user.id}}">Profile</a>
+        <a href="/user/{{user.id}}/edit">Edit</a>
+        <a href="/user/{{user.id}}/delete">Delete</a>
+    </div>
+    {% endfor %}
+
+
+</body>
+
+</html>

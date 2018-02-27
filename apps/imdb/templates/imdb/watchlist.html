@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <title>Watchlist</title>
+</head>
+
+<body>
+    <h1>Watchlist</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <form action='/search' method="POST">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" value="movies">
+        <input type="submit" value="Search">
+    </form>
+    
+    <form action='/watchlist' method="POST">
+        {% csrf_token %}
+        <button>Watchlist</button>
+    </form>
+
+    <form action='/{{reg}}' method="POST">
+        {% csrf_token %}
+        <button>{{label}}</button>
+    </form>
+
+
+
+
+
+    <hr>
+
+    <!-- API Entries --> 
+    <h2>YOU LIKE THESE MOVIES</h2>
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Options</th>
+        </tr>
+        {% for movie in user.watchlist.all %}
+        <tr>
+            <td><img src="{{movie.mov_img}}" alt="Missing Image" height="100px" width="100px"></td>
+            <td>{{movie.mov_title}}</td>
+            <td>
+                <a href="/{{movie.id}}">View</a>
+                <a href="/{{movie.id}}/rm_list">Remove from Watchlist</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% for user in users %}
+    <div class=userbox>
+        User:
+        <a href="/user/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
+        <br> {{user.email}}
+        <br> {{user.created_at}}
+        <br>
+        <a href="/user/{{user.id}}">Profile</a>
+        <a href="/user/{{user.id}}/edit">Edit</a>
+        <a href="/user/{{user.id}}/delete">Delete</a>
+    </div>
+    {% endfor %}
+
+
+</body>
+
+</html>

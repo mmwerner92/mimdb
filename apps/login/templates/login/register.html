@@ -1,0 +1,45 @@
+<html>
+
+<head>
+        <title>Registration</title>
+</head>
+
+<body>
+    <h1>Registration Page</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <h1>Register Here</h1>
+    <form action='register/' method='POST'>
+        {% csrf_token %}
+        <label for="first_name">First Name:
+            <input type="text" name="first_name" id="first_name">
+        </label>
+        <br>
+        <label for="last_name">Last Name:
+            <input type="text" name="last_name" id="last_name">
+        </label>
+        <br>
+        <label for="email">Email:
+            <input type="text" name="email" id="email">
+        </label>
+        <br>
+        <label for="password">Password:
+            <input type="password" name="password" id="password">
+        </label>
+        <br>
+        <label for="pswdcon">Password Confirmation:
+            <input type="password" name="pswdcon" id="pswdcon">
+        </label>
+        <br>
+        <input type="submit" value="Register">
+    </form>
+</body>
+
+</html>

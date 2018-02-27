@@ -1,0 +1,45 @@
+<html>
+
+<head>
+        <title>Login Page</title>
+</head>
+
+<body>
+
+    <h1>Login Page</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+    <h1> Login </h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tages }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action='login/' method='POST'>
+        {% csrf_token %}
+        <label for="email">Email:
+            <input type="text" name="email_login" id="email_login">
+        </label>
+        <br>
+        <label for="password">Password:
+            <input type="password" name="password_login" id="password_login">
+        </label>
+        <br>
+        <input type="submit" value="Log In">
+    </form>
+    <h3>or</h3>
+    <form action='regpage/' method="POST">
+        {% csrf_token %}
+        <button>Register</button>
+    </form>
+</body>
+
+</html>

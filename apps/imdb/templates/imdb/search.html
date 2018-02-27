@@ -1,0 +1,95 @@
+<html>
+
+<head>
+    <title>Search Results</title>
+</head>
+
+<body>
+    <h1>Search Results</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <form action='/search' method="POST">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" value="movies">
+        <input type="submit" value="Search">
+    </form>
+    
+    <form action='/watchlist' method="POST">
+        {% csrf_token %}
+        <button>Watchlist</button>
+    </form>
+
+    <form action='/{{reg}}' method="POST">
+        {% csrf_token %}
+        <button>{{label}}</button>
+    </form>
+
+    <hr>
+
+    <h2>Add a Movie?!</h2>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <form action='/add' method="POST" id="mov_add">
+        {% csrf_token %}
+        <label for="mov_title">Movie Title:
+            <input type="text" name="mov_title" id="mov_title">
+        </label>
+        <br>
+        <label for="mov_img">Poser Image URL:
+                <input type="text" name="mov_img" id="mov_img">
+            </label>
+            <br>
+        <label for="mov_release">Release Date:
+            <input type="date" name="mov_release" id="mov_release">
+        </label>
+        <br>
+        <label for="mov_director">Director:
+            <input type="text" name="mov_director" id="mov_director">
+        </label>
+        <br>
+        <label for="mov_descript">Description:
+            <textarea rows="4" cols="50" name="mov_descript" id="mov_descript" form="mov_add"></textarea>
+        </label>
+        <br>
+        <input type="hidden" name="curuser" value="{{request.session.curuser}}">
+        <br>
+        <input type="submit" value="Add Movie">
+    </form>
+    <hr>
+
+    <!-- API Entries --> 
+    <h2>YOU CAN ALSO LIKE THESE MOVIES</h2>
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Options</th>
+        </tr>
+        {% for movie in movies %}
+        <tr>
+            <td><img src="{{movie.mov_img}}" alt="Missing Image" height="100px" width="100px"></td>
+            <td>{{movie.mov_title}}</td>
+            <td>
+                <a href="/{{movie.id}}">View</a>
+                <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</body>
+
+</html>

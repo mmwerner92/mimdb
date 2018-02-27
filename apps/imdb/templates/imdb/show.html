@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <title>Search Results</title>
+</head>
+
+<body>
+    <h1>Search Results</h1>
+    {% if curuser %}
+        <h2> {{curuser}} has logged in </h2>
+    {% endif %}
+
+    <form action='/' method="POST">
+        {% csrf_token %}
+        <button>Home</button>
+    </form>
+
+    <form action='/search' method="POST">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" value="movies">
+        <input type="submit" value="Search">
+    </form>
+    
+    <form action='/watchlist' method="POST">
+        {% csrf_token %}
+        <button>Watchlist</button>
+    </form>
+
+    <form action='/{{reg}}' method="POST">
+        {% csrf_token %}
+        <button>{{label}}</button>
+    </form>
+    <hr>
+
+    <h2>{{movies.mov_title}}</h2>
+    <img src="{{movies.mov_img}}" alt="Missing Image" height="300px" width="300px"></td>
+    <p>
+    Released: {{movies.mov_release}}
+    <br>
+    Directed By: {{movies.mov_director}}
+    <br>
+    Description: {{movies.mov_descript}}
+    <br>
+    <a href="{{movies.id}}/add_list">Add to Watchlist</a>
+    </p>
+
+
+
+
+</body>
+
+</html>
