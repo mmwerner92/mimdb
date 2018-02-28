@@ -11,10 +11,14 @@ from django.core import serializers
 
 
 def index(request):
+    url = "https://api.themoviedb.org/3/movie/now_playing?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strcurmovies = requests.get(url).content
+    curmovies = json.loads(strcurmovies)
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
             "users":users,
+            "curmovies":curmovies,
             "reg":"reg/logout",
             "label":"Log Out",
             "curuser":request.session['curuser']
@@ -23,6 +27,7 @@ def index(request):
         print "requested curuser"
     else:
         context = {
+            "curmovies":curmovies,
             "reg":"reg/",
             "label":"Log In"
         }
