@@ -6,6 +6,8 @@ from django.contrib import messages
 from .models import *
 from ..login.models import *
 import bcrypt
+import requests, json
+from django.core import serializers
 
 
 def index(request):
@@ -33,7 +35,6 @@ def watchlist(request):
             "label":"Log Out",
             "curuser":request.session['curuser']
         }
-        print user.watchlist.all()
     else:
         context = {
             "reg":"reg/",
@@ -43,22 +44,27 @@ def watchlist(request):
 
 
 def search(request):
-    movies = Movie.objects.all()
+    # movies = Movie.objects.all()
+    title = request.POST['search'].replace(' ', '+')
+    url = "https://api.themoviedb.org/3/search/"+request.POST["search_option"]+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&query="+title+"&page=1"
+    strresponse = requests.get(url).content
+    response = json.loads(strresponse)
     if 'curuser' in request.session:
         context = {
-            "movies":movies,
+            # "movies":movies,
+            "response" : response,
             "reg":"reg/logout",
             "label":"Log Out",
             "curuser":request.session['curuser']
         }
-        print request.session['curuser']
-        print "requested curuser"
     else:
         context = {
-            "movies":movies,
+            # "movies":movies,
+            "response" : response,
             "reg":"reg/",
             "label":"Log In"
         }
+    
     return render(request,'imdb/search.html', context)
 
 def add(request):
@@ -79,8 +85,6 @@ def show(request, id):
             "label":"Log Out",
             "curuser":request.session['curuser']
         }
-        print request.session['curuser']
-        print "requested curuser"
     else:
         context = {
             "movies":movies,
@@ -118,10 +122,19 @@ def add_review(request, id):
     else:
         return redirect('/reg/')
 
-
 def rm_review(request, id, rev):
     if 'curuser' in request.session:
         Review.objects.get(id=rev).delete()
         return redirect(('/'+id))
     else:
         return redirect('/reg/')
+
+def result(request, search_option):
+    title = request.POST['search'].replace(' ', '+')
+    url = "https://api.themoviedb.org/3/search/"+search_option+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&query="+title+"&page=1"
+    strresponse = requests.get(url).content
+    response = json.loads(strresponse)
+    context = {
+        "response" : response,
+    }
+    return render(request, 'imdb/_results.html', context)

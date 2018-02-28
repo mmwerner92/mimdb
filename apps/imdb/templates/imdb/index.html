@@ -1,7 +1,14 @@
 <html>
 
 <head>
-    <title>Homepage</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IMDB Project</title>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -15,11 +22,27 @@
         <button>Profile</button>
     </form>
 
-    <form action='/search' method="POST">
+    <h2>Search bar</h2>
+    <form action="/search/searchpage" method="POST" class="ajax_form">
+        {% csrf_token %}
+        <input type="search" name="search" id="ajax_search">
+        <select name="search_option" id="searchselect">
+          <option value="multi">All</option>
+          <option value="movie">Movies</option>
+          <option value="person">People</option>
+          <option value="keyword">Keywords</option>
+        </select>
+        <input type="submit" value="search">
+    </form>
+    <div id = 'searches'>
+     
+    </div>
+
+    <!-- <form action='/search' method="POST">
         {% csrf_token %}
         <input type="text" name="search" id="search" value="movies">
         <input type="submit" value="Search">
-    </form>
+    </form> -->
     
     <form action='/watchlist' method="POST">
         {% csrf_token %}
@@ -75,5 +98,22 @@
 
 
 </body>
+<script>
+    
+    $('.ajax_form').submit(function(e){
+    //   e.preventDefault()
+    })
+    $('#ajax_search').keyup(function(){
+      var search_option = $('#searchselect').val()
+      $.ajax({
+        url: '/search/'+search_option+'/', 
+        method: 'post', 
+        data: $(this).parent().serialize(),
+        success: function(serverResponse) { 
+        $('#searches').html(serverResponse)
+        }
+      })
+    });
+  </script>
 
 </html>

@@ -70,7 +70,34 @@
     <hr>
 
     <!-- API Entries --> 
-    <h2>YOU CAN ALSO LIKE THESE MOVIES</h2>
+    <div id="search_results">
+
+    </div>
+    {% for i in response.results %}
+    <ul>
+
+        {% if i.original_title %}
+
+            <li>{{i.original_title}}</li>
+
+            {% elif i.name %}
+
+                <li>{{i.name}}</li>
+
+            {% elif i.title %}
+
+            <li>{{i.title}}</li>
+
+            {% elif i.poster_path %}
+
+            <li>img{{i.poster_path}}</li>
+
+        {% endif %}
+
+    </ul>
+    {% endfor %}
+
+    <!-- <h2>YOU CAN ALSO LIKE THESE MOVIES</h2>
     <table>
         <tr>
             <th>Image</th>
@@ -87,7 +114,7 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
 
 
 </body>
