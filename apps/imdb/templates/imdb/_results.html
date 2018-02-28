@@ -1,0 +1,20 @@
+
+{% for i in response.results %}
+<ul>
+    
+    {% if i.original_title %}
+
+    <li>{{i.original_title}}</li>
+    
+    {% elif i.name %}
+    
+    <li>{{i.name}}</li>
+    
+    {% elif i.title %}
+
+    <li>{{i.title}}</li>
+
+    {% endif %}
+    
+</ul>
+{% endfor %}

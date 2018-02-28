@@ -40,6 +40,20 @@ class UserManager(models.Manager):
             errors.append("Incorrect Email!")
         elif not (bcrypt.checkpw(post_data['password_login'].encode(),((Users.objects.filter(email=post_data['email_login']))[0].password).encode())==True):
             errors.append("Incorrect Password!")
+        return errors  
+
+    def updateval(self, post_data):
+        errors = []
+        if len(post_data['first_name']) < 2:
+            errors.append("First name is too short!")
+        if len(post_data['last_name']) < 2:
+            errors.append("Last name is too short!")
+        if not NAME_REGEX.match((post_data['first_name'])):
+            errors.append("Invalid first name!")    
+        if not NAME_REGEX.match((post_data['last_name'])):
+            errors.append("Invalid last name!")
+        if not EMAIL_REGEX.match((post_data['email'])):
+            errors.append("Invalid Email!")
         return errors        
 
 class Users(models.Model):

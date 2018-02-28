@@ -7,6 +7,32 @@ from django.contrib import messages
 from .models import *
 import bcrypt
 
+def profile(request, id):
+    if 'curuser' in request.session:
+        user = Users.objects.get(id=id)
+        context = {
+            "user":user,
+            "reg":"reg/logout",
+            "label":"Log Out",
+            "curuser":request.session['curuser']
+        }
+        return render(request,'login/profile.html', context)
+    else:
+        return redirect('/reg/')
+
+def update(request, id):
+    errors = Users.objects.updateval(request.POST)
+    if len(errors):
+        for error in errors:
+            messages.error(request, error)
+    else:
+        user=Users.objects.get(id=id)
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.email = request.POST['email']
+        user.save()
+    return redirect('/reg/'+id)    
+
 
 def logpage(request):
     if 'curuser' in request.session:
@@ -25,7 +51,7 @@ def register(request):
     if len(errors):
         for error in errors:
             messages.error(request, error)
-        return redirect("/")
+        return redirect('/reg/regpage/')
     else:
         request.session['curuser']=(Users.objects.get(email=request.POST['email'])).id
         request.session['access']='registration'
@@ -37,7 +63,7 @@ def login(request):
     if len(errors):
         for error in errors:
             messages.error(request, error)
-        return redirect('/')
+        return redirect('/reg/')
     else:
         request.session['curuser']=Users.objects.filter(email=request.POST['email_login'])[0].id
         request.session['access']='login'

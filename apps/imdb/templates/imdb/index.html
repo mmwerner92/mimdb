@@ -8,7 +8,7 @@
     <!-- Allows for multi device responsiveness-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit="no">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    
 
     <!-- Latest compiled and minified CSS -->
     <!-- Bootstrap CSS -->
@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="{% static 'css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
 
     <title>Homepage</title>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -111,6 +115,27 @@
 
     
 
+    <form action='/reg/{{curuser}}' method="POST">
+        {% csrf_token %}
+        <button>Profile</button>
+    </form>
+
+    <h2>Search bar</h2>
+    <form action="/search/searchpage" method="POST" class="ajax_form">
+        {% csrf_token %}
+        <input type="search" name="search" id="ajax_search">
+        <select name="search_option" id="searchselect">
+          <option value="multi">All</option>
+          <option value="movie">Movies</option>
+          <option value="person">People</option>
+          <option value="keyword">Keywords</option>
+        </select>
+        <input type="submit" value="search">
+    </form>
+    <div id = 'searches'>
+     
+    </div>
+
     <!-- <form action='/search' method="POST">
         {% csrf_token %}
         <input type="text" name="search" id="search" value="movies">
@@ -170,5 +195,22 @@
 
 
 </body>
+<script>
+    
+    $('.ajax_form').submit(function(e){
+    //   e.preventDefault()
+    })
+    $('#ajax_search').keyup(function(){
+      var search_option = $('#searchselect').val()
+      $.ajax({
+        url: '/search/'+search_option+'/', 
+        method: 'post', 
+        data: $(this).parent().serialize(),
+        success: function(serverResponse) { 
+        $('#searches').html(serverResponse)
+        }
+      })
+    });
+  </script>
 
 </html>
