@@ -1,0 +1,10 @@
+
+#main-content {
+    margin-top: 100px; 
+    height: auto;
+}
+#main-content label {
+    font-size: smaller;
+    margin-bottom: 0;
+    font-weight: bolder;
+}

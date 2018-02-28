@@ -1,43 +1,138 @@
-<html>
+<!DOCTYPE html>
+<!--Allows for HTML 5 content -->
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+
+    <!-- Allows for multi device responsiveness-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- The line above tells Django to be ready to listen for static files -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
+
     <title>Homepage</title>
 </head>
 
 <body>
-    <h1>Homepage</h1>
-    {% if curuser %}
-        <h2> {{curuser}} has logged in </h2>
+    <!--h1>Homepage</h1-->
+    <div id="wrapper" class="container">
+        <div id="main-content" class="">
+
+            <!--Row that has nav-->
+            <div class="col-12 navbar row">
+                <!--nav which is also a column-->
+
+                <a class="col-1 navbar-brand" href="/">
+                    <img src="{% static "images/imdbimgs/imdblogo.jpg" %}" alt="Home" />
+                </a>
+
+                <form class="col-2" action='/watchlist' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">Watchlist</button>
+                </form>
+
+                <!-- Maybe a viable option for our dropdown of list of movies -->
+                <!-- <div class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Dropdown trigger
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dLabel">
+                          ...
+                        </div>
+                      </div> -->
+
+                <form class="col-6 form-inline my-2 my-lg-0" action='/search' method="POST">
+                    {% csrf_token %}
+                    <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="">
+                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="movies">Search</button> -->
+                    <button class="search" type="submit" value="movies"><img class="search" src="{% static "images/imdbimgs/search.jpg" %}" alt="Home" /></button>
+                </form>
+                
+                <div id="movielist">
+                    <!-- Add dropdown list -->
+                </div>
+
+                <form class="col-1" action='/{{reg}}' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">{{label}}</button>
+                </form>
+
+            </div>
+            <!--end of row with nav in it-->
+            <div id="movies" class="row col-12">
+
+                <div class="col-8">
+                    <!-- API Entries -->
+                    <h2>Sample API Entries</h2>
+                    <table>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Release Date</th>
+                            <th>Options</th>
+                        </tr>
+                        {% for task in user.assigned.all %}
+                        <tr>
+                            <td>{{task.task_name}}</td>
+                            <td>{{task.task_time}}</td>
+                            <td>{{task.task_date}}</td>
+                            <td>{{task.task_status}}</td>
+                            <td>
+                                <a href="/belt/{{task.id}}/edit">Edit</a>
+                                <a href="/belt/{{task.id}}/delete">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+                <div class="col-4">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End of main-content row-->
+
+    <!-- {% if curuser %}
+    <h2> {{curuser}} has logged in </h2>
     {% endif %}
 
-    <form action='/' method="POST">
-        {% csrf_token %}
-        <button>Home</button>
-    </form>
+    
 
-    <form action='/search' method="POST">
+    <!-- <form action='/search' method="POST">
         {% csrf_token %}
         <input type="text" name="search" id="search" value="movies">
         <input type="submit" value="Search">
-    </form>
-    
-    <form action='/watchlist' method="POST">
+    </form> -->
+
+    <!-- <form action='/watchlist' method="POST">
         {% csrf_token %}
         <button>Watchlist</button>
-    </form>
+    </form> -->
 
-    <form action='/{{reg}}' method="POST">
+    <!-- <form action='/{{reg}}' method="POST">
         {% csrf_token %}
         <button>{{label}}</button>
-    </form>
-
+    </form>-->
 
 
 
 
     <hr>
 
-    <!-- API Entries --> 
+    <!-- API Entries
     <h2>Sample API Entries</h2>
     <table>
         <tr>
@@ -58,9 +153,9 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
 
-    {% for user in users %}
+    <!-- {% for user in users %}
     <div class=userbox>
         User:
         <a href="/user/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
@@ -71,7 +166,7 @@
         <a href="/user/{{user.id}}/edit">Edit</a>
         <a href="/user/{{user.id}}/delete">Delete</a>
     </div>
-    {% endfor %}
+    {% endfor %} -->
 
 
 </body>
