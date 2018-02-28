@@ -10,11 +10,6 @@
         <h2> {{curuser}} has logged in </h2>
     {% endif %}
 
-    <form action='/' method="POST">
-        {% csrf_token %}
-        <button>Home</button>
-    </form>
-
     <form action='/reg/{{curuser}}' method="POST">
         {% csrf_token %}
         <button>Profile</button>
