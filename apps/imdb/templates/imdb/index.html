@@ -16,29 +16,20 @@
     <!-- The line above tells Django to be ready to listen for static files -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'imdb/css/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
-    <title>IMDB Project</title>
+    <title>Homepage</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <!-- <h1>Homepage</h1>
-    {% if curuser %}
-    <h2> {{curuser}} has logged in </h2>
-    {% endif %} -->
-
-    <!-- <form action='/reg/{{curuser}}' method="POST">
-        {% csrf_token %}
-        <button>Profile</button>
-    </form> -->
 
     <div id="wrapper" class="container">
         <div id="main-content" class="">
 
             <!--Row that has nav-->
-            <div class="col-12 row">
+            <div class="col-12 navbar row">
                 <!--nav which is also a column-->
-                <a class="col-1 navbar-brand" href="/reg/{{curuser}}">
+                <a class="col-1 navbar-brand" href="/">
                     <img src="{% static "imdb/images/imdblogo.jpg" %}" alt="Home" />
                 </a>
 
@@ -47,16 +38,6 @@
                     {% csrf_token %}
                     <button class="btn btn-light">Watchlist</button>
                 </form>
-
-                <!-- Maybe a viable option for our dropdown of list of movies -->
-                <!-- <div class="dropdown">
-                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Dropdown trigger
-                        </button>
-                        <div id='searches' class="dropdown-menu" aria-labelledby="dLabel">
-                          ...
-                        </div>
-                      </div> -->
 
                 <form action="/search/searchpage" method="POST" class="ajax_form col-6 form-inline my-2 my-lg-0">
                     {% csrf_token %}
