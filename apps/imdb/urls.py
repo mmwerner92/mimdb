@@ -3,6 +3,9 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),  
     url(r'^watchlist$', views.watchlist),
+    url(r'^upcoming$', views.upcoming),
+    url(r'^current$', views.current),
+    url(r'^toprated$', views.toprated),
     url(r'search/(?P<search_option>\w+)/$', views.result), 
     url(r'search/searchpage$', views.search), 
     url(r'^add$', views.add),

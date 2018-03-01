@@ -16,12 +16,12 @@
     <!-- The line above tells Django to be ready to listen for static files -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'imdb/css/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
-    <title>Homepage</title>
+    <title>Search Results</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 </head>
 
-<body style="background-image:url('https://image.tmdb.org/t/p/original/{{background.poster_path}}')">
+<body>
 
     <div id="wrapper" class="container">
         <div id="main-content" class="">
@@ -60,7 +60,7 @@
                     </button>
                 </form>
 
-                <div class = "movies-horz" id='searches'>
+                <div id='searches'>
 
                 </div>
 
@@ -73,63 +73,29 @@
             <hr>
 
             <!-- API Entries -->
-            <a href="/upcoming"><h3>Upcoming Movies</h3></a>
-            <div id="upcoming_movies" class="movieimgs">
-                {% for fmovie in futmovies.results|slice:"7" %}
-                    <li class = "horz">
-                        <a href="/{{fmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}" alt="{{fmovie.original_title}}"></a> 
-                    </li>
-                 {% endfor %}
-            </div>
+            <div id="search_results">
 
-            <hr>
-            
-            <div id="current_movies" class="movieimgs">
-                <a href="/current"><h3>Now Playing</h3></a>
-                {% for movie in curmovies.results|slice:"7" %}
-                <li class = "horz">
-                    <a href="/{{movie.id}}">
-                        <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="{{movie.original_title}}">
-                    </a>
+            </div>
+            <ul class = "">
+            {% for fmovie in futmovies.results %}
+           
+                {% if fmovie.original_title and fmovie.poster_path %}
+
+                <li class="horz movieimgs searchres">
+                <a href="/{{fmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}"></a>
+                <br>
+                {{fmovie.original_title}}<br>
+                <a href="/{{fmovie.id}}/add_list">Add to Watchlist</a>
                 </li>
-                {% endfor %}
+                {% endif %}
 
-            </div>
-            
-            <div id="top_movies" class="movieimgs">
-                <a href="/toprated"><h3>Top Rated Movies</h3></a>
-                {% for tmovie in topmovies.results|slice:"7" %} 
-                    <li class = "horz">
-                        <a href="/{{tmovie.id}}">
-                            <img src="https://image.tmdb.org/t/p/w154/{{tmovie.poster_path}}" alt="{{tmovie.original_title}}">
-                        </a>
-                        <p >  Rating: {{tmovie.vote_average}}/10  Votes: {{tmovie.vote_count}}</p-->
-                        <!--p>Rating: {{tmovie.vote_average}}/10</p-->
-                    </li>
-                {% endfor %}
-               
-            </div>
-
+            {% endfor %}
+            </ul>
         </div>
     </div>
 
-</body>
-<script>
 
-    $('.ajax_form').submit(function (e) {
-        //   e.preventDefault()
-    })
-    $('#ajax_search').keyup(function () {
-        var search_option = $('#searchselect').val()
-        $.ajax({
-            url: '/search/' + search_option + '/',
-            method: 'post',
-            data: $(this).parent().serialize(),
-            success: function (serverResponse) {
-                $('#searches').html(serverResponse)
-            }
-        })
-    });
-</script>
+
+</body>
 
 </html>

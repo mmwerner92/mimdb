@@ -5,7 +5,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from .models import *
 from ..login.models import *
-import bcrypt
+import bcrypt, random
 import requests, json
 from django.core import serializers
 
@@ -20,11 +20,15 @@ def index(request):
     url3 = "https://api.themoviedb.org/3/movie/upcoming?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
     strfutmovies = requests.get(url3).content
     futmovies =  json.loads(strfutmovies)
+    url4 = "https://api.themoviedb.org/3/movie/popular?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strbackgrounds = requests.get(url4).content
+    backgrounds =  json.loads(strbackgrounds)
+    background = random.choice(backgrounds['results'])
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
-            "futmovies":futmovies,
             "curmovies":curmovies,
+            "background":background,
             "topmovies":topmovies,
             "futmovies":futmovies,
             "users":users,
@@ -34,8 +38,8 @@ def index(request):
         }
     else:
         context = {
-            "futmovies":futmovies,
             "curmovies":curmovies,
+             "background":background,
             "topmovies":topmovies,
             "futmovies":futmovies,
             "reg":"reg/",
@@ -77,6 +81,68 @@ def watchlist(request):
         return redirect('/reg/')
     return render(request,'imdb/watchlist.html', context)
 
+def upcoming(request):
+    url3 = "https://api.themoviedb.org/3/movie/upcoming?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strfutmovies = requests.get(url3).content
+    futmovies =  json.loads(strfutmovies)
+    if 'curuser' in request.session:
+        users = Users.objects.all ()
+        context = {
+            "futmovies":futmovies,
+            "users":users,
+            "reg":"reg/logout",
+            "label":"Log Out",
+            "curuser":request.session['curuser']
+        }
+    else:
+        context = {
+            "futmovies":futmovies,
+            "reg":"reg/",
+            "label":"Log In"
+        }
+    return render(request, 'imdb/upcoming.html', context)
+
+def current(request):
+    url = "https://api.themoviedb.org/3/movie/now_playing?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strcurmovies = requests.get(url).content
+    curmovies = json.loads(strcurmovies)
+    if 'curuser' in request.session:
+        users = Users.objects.all ()
+        context = {
+            "curmovies":curmovies,
+            "users":users,
+            "reg":"reg/logout",
+            "label":"Log Out",
+            "curuser":request.session['curuser']
+        }
+    else:
+        context = {
+            "curmovies":curmovies,
+            "reg":"reg/",
+            "label":"Log In"
+        }
+    return render(request, 'imdb/current.html', context)
+
+def toprated(request):
+    url2 = "https://api.themoviedb.org/3/movie/top_rated?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1"
+    strtopmovies = requests.get(url2).content
+    topmovies =  json.loads(strtopmovies)
+    if 'curuser' in request.session:
+        users = Users.objects.all ()
+        context = {
+            "topmovies":topmovies,
+            "users":users,
+            "reg":"reg/logout",
+            "label":"Log Out",
+            "curuser":request.session['curuser']
+        }
+    else:
+        context = {
+            "topmovies":topmovies,
+            "reg":"reg/",
+            "label":"Log In"
+        }
+    return render(request, 'imdb/toprated.html', context)
 
 def search(request):
     title = request.POST['search'].replace(' ', '+')
