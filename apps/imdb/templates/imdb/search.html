@@ -76,22 +76,23 @@
             <div id="search_results">
 
             </div>
+            <ul class = "">
             {% for movie in response.results %}
-            <ul>
+           
 
                 {% if movie.original_title and movie.poster_path %}
 
-                <li>{{movie.original_title}}</li>
-                <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
-                <br> {{movie.id}}
+                <li class="horz movieimgs searchres">
+                <a href="/{{tmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}"></a>
                 <br>
-                <a href="/{{movie.id}}">View</a>
+                {{movie.original_title}}<br>
                 <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
-
+                </li>
                 {% endif %}
 
-            </ul>
+            
             {% endfor %}
+            </ul>
         </div>
     </div>
 

@@ -60,7 +60,7 @@
                     </button>
                 </form>
 
-                <div id='searches'>
+                <div class = "movies-horz" id='searches'>
 
                 </div>
 
@@ -73,10 +73,21 @@
             <hr>
 
             <!-- API Entries -->
-            <h3>Now Playing</h3>
-            <div id="current_movies">
-                {% for movie in curmovies.results|slice:"5" %}
-                <li>
+            <h3>Upcoming Movies</h3>
+            <div id="upcoming_movies" class="movieimgs">
+                {% for fmovie in futmovies.results|slice:"7" %}
+                    <li class = "horz">
+                        <a href="/{{fmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}" alt="{{fmovie.original_title}}"></a> 
+                    </li>
+                 {% endfor %}
+            </div>
+
+            <hr>
+            
+            <div id="current_movies" class="movieimgs">
+                <h3>Now Playing</h3>
+                {% for movie in curmovies.results|slice:"7" %}
+                <li class = "horz">
                     <a href="/{{movie.id}}">
                         <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="{{movie.original_title}}">
                     </a>
@@ -84,18 +95,19 @@
                 {% endfor %}
 
             </div>
-
-            <hr>
-            <h3>Top Rated Movies</h3>
-            <div id="top_movies">
-                {% for tmovie in topmovies.results|slice:"5" %}
-                <li>
-                    <a href="/{{tmovie.id}}">
-                        <img src="https://image.tmdb.org/t/p/w154/{{tmovie.poster_path}}" alt="{{tmovie.original_title}}">
-                    </a>
-                    <p>Rating: {{tmovie.vote_average}}/10 in total of {{tmovie.vote_count}} votes</p>
-                </li>
+            
+            <div id="top_movies" class="movieimgs">
+                <h3>Top Rated Movies</h3>
+                {% for tmovie in topmovies.results|slice:"7" %} 
+                    <li class = "horz">
+                        <a href="/{{tmovie.id}}">
+                            <img src="https://image.tmdb.org/t/p/w154/{{tmovie.poster_path}}" alt="{{tmovie.original_title}}">
+                        </a>
+                        <p >  Rating: {{tmovie.vote_average}}/10  Votes: {{tmovie.vote_count}}</p-->
+                        <!--p>Rating: {{tmovie.vote_average}}/10</p-->
+                    </li>
                 {% endfor %}
+               
             </div>
 
         </div>

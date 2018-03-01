@@ -17,11 +17,15 @@ def index(request):
     url2 = "https://api.themoviedb.org/3/movie/top_rated?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1"
     strtopmovies = requests.get(url2).content
     topmovies =  json.loads(strtopmovies)
+    url3 = "https://api.themoviedb.org/3/movie/upcoming?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strfutmovies = requests.get(url3).content
+    futmovies =  json.loads(strfutmovies)
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
             "curmovies":curmovies,
             "topmovies":topmovies,
+            "futmovies":futmovies,
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -31,6 +35,7 @@ def index(request):
         context = {
             "curmovies":curmovies,
             "topmovies":topmovies,
+            "futmovies":futmovies,
             "reg":"reg/",
             "label":"Log In"
         }
