@@ -40,33 +40,37 @@ class RevManager(models.Manager):
         errors = []
         if len(post_data['rev_text']) < 1:
             errors.append("Please add some text!")     
-        if (Review.objects.filter(reviewer=Users.objects.get(id=post_data['curuser'])).count()>0):
+        if (Review.objects.filter(movie=post_data['movie'], reviewer=Users.objects.get(id=post_data['curuser'])).count()>0):
             errors.append("You have already left a review for this film!")
         if not len(errors):
             Review.objects.create(
             rev_text=post_data['rev_text'],
             rev_score=post_data['rev_score'],
             reviewer=Users.objects.get(id=post_data['curuser']),
-            movie=Movie.objects.get(id=post_data['movie']))
+            movie=post_data['movie'])
         return errors    
 
 
 class Movie(models.Model):
-    mov_title = models.CharField(max_length=255)
-    mov_img = models.CharField(max_length=255)
-    mov_release = models.DateField()
-    mov_director = models.CharField(max_length=255)
-    mov_descript = models.TextField()
+    mov_id = models.IntegerField()
     watchlist = models.ManyToManyField(Users, related_name="watchlist")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    objects = MovManager()
+    # mov_title = models.CharField(max_length=255)
+    # mov_img = models.CharField(max_length=255)
+    # mov_release = models.DateField()
+    # mov_director = models.CharField(max_length=255)
+    # mov_descript = models.TextField()
+    # watchlist = models.ManyToManyField(Users, related_name="watchlist")
+    # created_at = models.DateTimeField(auto_now_add = True)
+    # updated_at = models.DateTimeField(auto_now = True)
+    # objects = MovManager()
 
 class Review(models.Model):
     rev_text = models.TextField()
     rev_score = models.IntegerField()
     reviewer = models.ForeignKey(Users, related_name="user_review")
-    movie = models.ForeignKey(Movie, related_name="movie_review")
+    movie = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = RevManager()

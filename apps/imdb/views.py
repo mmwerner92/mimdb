@@ -28,8 +28,15 @@ def index(request):
 
 def watchlist(request):
     if 'curuser' in request.session:
-        user = Users.objects.filter(id=request.session['curuser'])[0]
+        mov_list=[]
+        user = Users.objects.get(id=request.session['curuser'])
+        for item in user.watchlist.all():
+            url = "https://api.themoviedb.org/3/movie/" + str(item.mov_id) + "?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699"
+            strresponse = requests.get(url).content
+            movie = [json.loads(strresponse)]
+            mov_list+=movie
         context = {
+            "mov_list":mov_list,
             "user":user,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -44,14 +51,12 @@ def watchlist(request):
 
 
 def search(request):
-    # movies = Movie.objects.all()
     title = request.POST['search'].replace(' ', '+')
     url = "https://api.themoviedb.org/3/search/"+request.POST["search_option"]+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&query="+title+"&page=1"
     strresponse = requests.get(url).content
     response = json.loads(strresponse)
     if 'curuser' in request.session:
         context = {
-            # "movies":movies,
             "response" : response,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -59,7 +64,6 @@ def search(request):
         }
     else:
         context = {
-            # "movies":movies,
             "response" : response,
             "reg":"reg/",
             "label":"Log In"
@@ -75,11 +79,13 @@ def add(request):
     return redirect ('/search')
 
 def show(request, id):
-    movies = Movie.objects.filter(id=id)[0]
-    reviews = Review.objects.filter(movie=Movie.objects.filter(id=id))
+    url = "https://api.themoviedb.org/3/movie/"+id+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699"
+    strresponse = requests.get(url).content
+    movie = json.loads(strresponse)
+    reviews = Review.objects.filter(movie=id)
     if 'curuser' in request.session:
         context = {
-            "movies":movies,
+            "movie":movie,
             "reviews":reviews,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -87,7 +93,7 @@ def show(request, id):
         }
     else:
         context = {
-            "movies":movies,
+            "movie":movie,
             "reviews":reviews,
             "reg":"reg/",
             "label":"Log In"
@@ -97,7 +103,9 @@ def show(request, id):
 def add_list(request, id):
     if 'curuser' in request.session:
         this_user = Users.objects.get(id=request.session['curuser'])
-        this_movie = Movie.objects.get(id=id)
+        if Movie.objects.filter(mov_id=id).count()<1:
+            Movie.objects.create(mov_id=id)
+        this_movie = Movie.objects.get(mov_id=id)
         this_user.watchlist.add(this_movie)
         return redirect('/watchlist')
     else:
@@ -106,7 +114,7 @@ def add_list(request, id):
 def rm_list(request, id):
     if 'curuser' in request.session:
         this_user = Users.objects.get(id=request.session['curuser'])
-        this_movie = Movie.objects.get(id=id)
+        this_movie = Movie.objects.get(mov_id=id)
         this_user.watchlist.remove(this_movie)
         return redirect('/watchlist')
     else:
