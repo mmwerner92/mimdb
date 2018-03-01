@@ -11,10 +11,10 @@ body {
     margin-top: 100px;
     background-color: rgb(37, 37, 37);  
     /* height: 800px; */
-    padding: 50px;
 }
 #main-content form {
     margin-bottom: 0px;
+    margin-right: 20px;
 }
 a {
     /* color: #222222; */
