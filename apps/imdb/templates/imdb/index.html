@@ -74,7 +74,6 @@
 
             <!-- API Entries -->
             <h3>Upcoming Movies</h3>
-<<<<<<< HEAD
             <div id="upcoming_movies" class="movieimgs">
                 {% for fmovie in futmovies.results|slice:"7" %}
                     <li class = "horz">
@@ -89,23 +88,6 @@
                 <h3>Now Playing</h3>
                 {% for movie in curmovies.results|slice:"7" %}
                 <li class = "horz">
-=======
-            <div id="upcoming_movies">
-                {% for fmovie in futmovies.results|slice:"5" %}
-                <li>
-                    <a href="/{{fmovie.id}}">
-                        <img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}" alt="{{fmovie.original_title}}">
-                    </a>
-                </li>
-                {% endfor %}
-            </div>
-
-            <hr>
-            <h3>Now Playing</h3>
-            <div id="current_movies">
-                {% for movie in curmovies.results|slice:"5" %}
-                <li>
->>>>>>> watchlist_update
                     <a href="/{{movie.id}}">
                         <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="{{movie.original_title}}">
                     </a>
