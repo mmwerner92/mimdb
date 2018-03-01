@@ -23,6 +23,7 @@ def index(request):
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
+            "futmovies":futmovies,
             "curmovies":curmovies,
             "topmovies":topmovies,
             "futmovies":futmovies,
@@ -33,6 +34,7 @@ def index(request):
         }
     else:
         context = {
+            "futmovies":futmovies,
             "curmovies":curmovies,
             "topmovies":topmovies,
             "futmovies":futmovies,
@@ -43,14 +45,24 @@ def index(request):
 
 def watchlist(request):
     if 'curuser' in request.session:
+        rev_list={}
         mov_list=[]
         user = Users.objects.get(id=request.session['curuser'])
+        reviews = Review.objects.filter(reviewer=user)
+        for rev in reviews:
+            url = "https://api.themoviedb.org/3/movie/" + str(rev.movie) + "?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699"
+            strresponse = requests.get(url).content
+            movie = [json.loads(strresponse)]
+            
+            rev_list[movie[0]["poster_path"]]=rev
         for item in user.watchlist.all():
             url = "https://api.themoviedb.org/3/movie/" + str(item.mov_id) + "?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699"
             strresponse = requests.get(url).content
             movie = [json.loads(strresponse)]
             mov_list+=movie
+        print rev_list
         context = {
+            "rev_list":rev_list,
             "mov_list":mov_list,
             "user":user,
             "reg":"reg/logout",

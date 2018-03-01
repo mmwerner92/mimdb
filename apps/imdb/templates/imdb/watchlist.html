@@ -94,23 +94,24 @@
                 {% endfor %}
             </table>
 
-            <h2>YOU LEFT THESE COMMENTS</h2>
+            <h2>YOU LEFT THESE REVIEWS</h2>
             <table>
                 <tr>
                     <th>Image</th>
-                    <th>Title</th>
-                    <th>Comment</th>
+                    <th>Rating</th>
+                    <th>Review</th>
                     <th>Options</th>
                 </tr>
-                {% for movie in mov_list %}
+                {% for rev,val in rev_list.iteritems %}
                 <tr>
                     <td>
-                        <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
+                        <img src="https://image.tmdb.org/t/p/w92/{{rev}}">
                     </td>
-                    <td>{{movie.title}}</td>
+                    <td>{{val.rev_score}}/5</td>
+                    <td>{{val.rev_text}}</td>
                     <td>
-                        <a href="/{{movie.id}}">View</a>
-                        <a href="/{{movie.id}}/rm_list">Remove from Watchlist</a>
+                        <a href="/{{rev}}">View</a>
+                        <a href="/{{rev.movie}}/{{rev.id}}/rm_review">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
