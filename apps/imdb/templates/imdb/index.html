@@ -15,7 +15,7 @@
 
     <!-- The line above tells Django to be ready to listen for static files -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
     <title>IMDB Project</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
@@ -36,10 +36,10 @@
         <div id="main-content" class="">
 
             <!--Row that has nav-->
-            <div class="col-12 navbar row">
+            <div class="col-12 row">
                 <!--nav which is also a column-->
                 <a class="col-1 navbar-brand" href="/reg/{{curuser}}">
-                    <img src="{% static "imdb/images/imdbimgs/imdblogo.jpg" %}" alt="Home" />
+                    <img src="{% static "imdb/images/imdblogo.jpg" %}" alt="Home" />
                 </a>
       
 
@@ -73,7 +73,7 @@
                         <option value="keyword">Keywords</option>
                     </select>
 
-                    <button class="search" type="submit" value="movies"><img class="search" src="{% static "imdb/images/imdbimgs/search.jpg" %}" alt="Home" /></button>
+                    <button class="search" type="submit" value="movies"><img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" /></button>
                 </form>
 
                 <div id='searches'>

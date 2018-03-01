@@ -15,7 +15,7 @@
 
     <!-- The line above tells Django to be ready to listen for static files -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
     <title>Search Results</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
@@ -29,17 +29,17 @@
             <!--Row that has nav-->
             <div class="col-12 navbar row">
                 <!--nav which is also a column-->
-                <a class="col-1 navbar-brand" href="/">
-                    <img src="{% static "imdb/images/imdbimgs/imdblogo.jpg" %}" alt="Home" />
+                <a class="col-xs-12 navbar-brand" href="/">
+                    <img src="{% static "imdb/images/imdblogo.jpg" %}" alt="Home" />
                 </a>
 
 
-                <form class="col-2" action='/watchlist' method="POST">
+                <form class="col-xs-12" action='/watchlist' method="POST">
                     {% csrf_token %}
                     <button class="btn btn-light">Watchlist</button>
                 </form>
 
-                <form action="/search/searchpage" method="POST" class="ajax_form col-6 form-inline my-2 my-lg-0">
+                <form action="/search/searchpage" method="POST" class="ajax_form col-md-6 form-inline my-2 my-lg-0">
                     {% csrf_token %}
                     <!-- <input type="search" name="search" id="ajax_search"> -->
 
@@ -56,7 +56,7 @@
                     </select>
 
                     <button class="search" type="submit" value="movies">
-                        <img class="search" src="{% static "imdb/images/imdbimgs/search.jpg" %}" alt="Home" />
+                        <img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" />
                     </button>
                 </form>
 
@@ -64,7 +64,7 @@
 
                 </div>
 
-                <form class="col-1" action='/{{reg}}' method="POST">
+                <form class="col-md-1" action='/{{reg}}' method="POST">
                     {% csrf_token %}
                     <button class="btn btn-light">{{label}}</button>
                 </form>
