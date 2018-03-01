@@ -73,15 +73,15 @@
             <li><h2>{{movie.original_title}}</h2></li>
             <img src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}">
             <br> 
+            <a href ="{{movie.homepage}}">{{movie.original_title}}'s Web Page</a>
+            <br>
             Summary: {{movie.overview}}
-            <br> 
-            Revenue: ${{movie.revenue}}
-            <br> 
-            <a href ="{{movie.homepage}}">Movie Page</a>
-            <br> 
-            Released: {{movie.release_date}}
             <br>
             Budget: ${{movie.budget}}
+            <br> 
+            Revenue: ${{movie.revenue}}
+            <br>  
+            Released: {{movie.release_date}}
             <br>
             <a href="/{{movie.id}}">View</a>
             <a href="/{{movie.id}}/add_list">Add to Watchlist</a>

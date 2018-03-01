@@ -57,6 +57,7 @@ def watchlist(request):
             "reg":"reg/",
             "label":"Log In"
         }
+        return redirect('/reg/')
     return render(request,'imdb/watchlist.html', context)
 
 
