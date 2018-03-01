@@ -103,3 +103,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# database ignores
+db.sqlite3
+login/migrations/*
+imdb/migrations/*

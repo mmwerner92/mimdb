@@ -1,0 +1,55 @@
+body {
+    background-color: slategray;
+    background-image: url(https://images-na.ssl-images-amazon.com/images/M/MV5BNDg1NTU2OWEtM2UzYi00ZWRmLWEwMTktZWNjYWQ1NWM1OThjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg);
+    color: whitesmoke
+}
+/* h2 {
+    color:  white;
+} */
+
+#main-content {
+    margin-top: 100px;
+    background-color: rgb(37, 37, 37);  
+    height: 800px;
+}
+#main-content form {
+    margin-bottom: 0px;
+}
+a {
+    color: #222222;
+}
+#movies {
+    vertical-align: top;
+}
+#search {
+    width: 400px;
+}
+#searches {
+    
+    height: 200px;
+    width: 250px;
+    position: absolute;
+    display: inline-block;
+    top: 70;
+    left: 427px;
+}
+#main-content form {
+    margin-block-end: 0px;
+}
+button.search {
+    padding: 0px;
+    border: 0px;
+    margin-left: 5px;
+}
+img.search {
+    width:36px;
+    height:36px;
+}
+.navbar {
+    height:100px;
+    margin: 0px;
+}
+select, option { 
+    height:38px;
+    
+}

@@ -1,62 +1,100 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+
+    <!-- Allows for multi device responsiveness-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- The line above tells Django to be ready to listen for static files -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
     <title>Watchlist</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <h1>Watchlist</h1>
-    {% if curuser %}
-        <h2> {{curuser}} has logged in </h2>
-    {% endif %}
 
-    <form action='/' method="POST">
-        {% csrf_token %}
-        <button>Home</button>
-    </form>
+    <div id="wrapper" class="container">
+        <div id="main-content" class="">
 
-    <form action='/search' method="POST">
-        {% csrf_token %}
-        <input type="text" name="search" id="search" value="movies">
-        <input type="submit" value="Search">
-    </form>
-    
-    <form action='/watchlist' method="POST">
-        {% csrf_token %}
-        <button>Watchlist</button>
-    </form>
+            <!--Row that has nav-->
+            <div class="col-12 navbar row">
+                <!--nav which is also a column-->
+                <a class="col-1 navbar-brand" href="/">
+                    <img src="{% static "imdb/images/imdbimgs/imdblogo.jpg" %}" alt="Home" />
+                </a>
 
-    <form action='/{{reg}}' method="POST">
-        {% csrf_token %}
-        <button>{{label}}</button>
-    </form>
+
+                <form class="col-2" action='/watchlist' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">Watchlist</button>
+                </form>
+
+                <form action="/search/searchpage" method="POST" class="ajax_form col-6 form-inline my-2 my-lg-0">
+                    {% csrf_token %}
+                    <!-- <input type="search" name="search" id="ajax_search"> -->
+
+                    <input id="ajax_search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                        value="">
 
 
 
+                    <select name="search_option" id="searchselect">
+                        <option value="multi">All</option>
+                        <option value="movie">Movies</option>
+                        <option value="person">People</option>
+                        <option value="keyword">Keywords</option>
+                    </select>
 
+                    <button class="search" type="submit" value="movies">
+                        <img class="search" src="{% static "imdb/images/imdbimgs/search.jpg" %}" alt="Home" />
+                    </button>
+                </form>
 
-    <hr>
+                <div id='searches'>
 
-    <!-- API Entries --> 
-    <h2>YOU LIKE THESE MOVIES</h2>
-    <table>
-        <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Options</th>
-        </tr>
-        {% for movie in mov_list %}
-        <tr>
-            <td><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}"></td>
-            <td>{{movie.title}}</td>
-            <td>
-                <a href="/{{movie.id}}">View</a>
-                <a href="/{{movie.id}}/rm_list">Remove from Watchlist</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+                </div>
 
+                <form class="col-1" action='/{{reg}}' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">{{label}}</button>
+                </form>
+            </div>
+
+            <hr>
+
+            <!-- API Entries -->
+            <h2>YOU LIKE THESE MOVIES</h2>
+            <table>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Options</th>
+                </tr>
+                {% for movie in mov_list %}
+                <tr>
+                    <td>
+                        <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
+                    </td>
+                    <td>{{movie.title}}</td>
+                    <td>
+                        <a href="/{{movie.id}}">View</a>
+                        <a href="/{{movie.id}}/rm_list">Remove from Watchlist</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>

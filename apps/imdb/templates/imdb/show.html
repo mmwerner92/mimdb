@@ -1,91 +1,121 @@
 <html>
 
 <head>
-    <title>Search Results</title>
+    <meta charset="UTF-8">
+
+    <!-- Allows for multi device responsiveness-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- The line above tells Django to be ready to listen for static files -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'imdb/css/imdbcss/imdbcss.css' %}" media="screen" title="no title" charset="utf-8">
+    <title>{{movie.title}}</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <h1>Search Results</h1>
-    {% if curuser %}
-        <h2> {{curuser}} has logged in </h2>
-    {% endif %}
 
-    <form action='/' method="POST">
-        {% csrf_token %}
-        <button>Home</button>
-    </form>
+    <div id="wrapper" class="container">
+        <div id="main-content" class="">
 
-    <form action='/search' method="POST">
-        {% csrf_token %}
-        <input type="text" name="search" id="search" value="movies">
-        <input type="submit" value="Search">
-    </form>
-    
-    <form action='/watchlist' method="POST">
-        {% csrf_token %}
-        <button>Watchlist</button>
-    </form>
-
-    <form action='/{{reg}}' method="POST">
-        {% csrf_token %}
-        <button>{{label}}</button>
-    </form>
-    <hr>
-
-    <li>{{movie.original_title}}</li>
-    <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
-    <br>
-    {{movie.id}}
-    <br>
-    <a href="/{{movie.id}}">View</a>
-    <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
-    <hr>
+            <!--Row that has nav-->
+            <div class="col-12 navbar row">
+                <!--nav which is also a column-->
+                <a class="col-1 navbar-brand" href="/">
+                    <img src="{% static "imdb/images/imdbimgs/imdblogo.jpg" %}" alt="Home" />
+                </a>
 
 
-    <h3>Reviews</h3>
-    {% for review in reviews %}
-    User: {{review.reviewer.first_name}} {{review.reviewer.last_name}}
-    <br>
-    Rating: {{review.rev_score}}/5
-    <br>
-    Comment: {{review.rev_text}}
-    <br>
-    {% if review.reviewer.id == curuser %}
-    <a href="{{movie.id}}/{{review.id}}/rm_review">Delete</a>
-    <br>
-    {% endif %}
-    <br>
-    {% endfor %}
-    <hr>
+                <form class="col-2" action='/watchlist' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">Watchlist</button>
+                </form>
 
+                <form action="/search/searchpage" method="POST" class="ajax_form col-6 form-inline my-2 my-lg-0">
+                    {% csrf_token %}
+                    <!-- <input type="search" name="search" id="ajax_search"> -->
 
-    <h3>Leave a Review?</h3>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-    </ul>
-    {% endif %}
-    <form action='/{{movie.id}}/add_review' method="POST" id="rev_add">
-        {% csrf_token %}
-        <pre class="tab">        1   2   3   4   5</pre>
-        <label for="rev_score">Rating:
-            <input type="range" name="rev_score" id="rev_score" min="1" max="5" value="3">
-        </label>
-        <br>
-        <label for="rev_text">Review:
-            <textarea rows="4" cols="50" name="rev_text" id="rev_text" form="rev_add"></textarea>
-        </label>
-        <br>
-        <input type="hidden" name="curuser" value="{{request.session.curuser}}">
-        <br>
-        <input type="hidden" name="movie" value="{{movie.id}}">
-        <input type="submit" value="Add Review">
-    </form>
+                    <input id="ajax_search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                        value="">
 
 
 
+                    <select name="search_option" id="searchselect">
+                        <option value="multi">All</option>
+                        <option value="movie">Movies</option>
+                        <option value="person">People</option>
+                        <option value="keyword">Keywords</option>
+                    </select>
+
+                    <button class="search" type="submit" value="movies">
+                        <img class="search" src="{% static "imdb/images/imdbimgs/search.jpg" %}" alt="Home" />
+                    </button>
+                </form>
+
+                <div id='searches'>
+
+                </div>
+
+                <form class="col-1" action='/{{reg}}' method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-light">{{label}}</button>
+                </form>
+            </div>
+
+            <li>{{movie.original_title}}</li>
+            <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
+            <br> {{movie.id}}
+            <br>
+            <a href="/{{movie.id}}">View</a>
+            <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
+            <hr>
+
+
+            <h3>Reviews</h3>
+            {% for review in reviews %} User: {{review.reviewer.first_name}} {{review.reviewer.last_name}}
+            <br> Rating: {{review.rev_score}}/5
+            <br> Comment: {{review.rev_text}}
+            <br> {% if review.reviewer.id == curuser %}
+            <a href="{{movie.id}}/{{review.id}}/rm_review">Delete</a>
+            <br> {% endif %}
+            <br> {% endfor %}
+            <hr>
+
+
+            <h3>Leave a Review?</h3>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+            <form action='/{{movie.id}}/add_review' method="POST" id="rev_add">
+                {% csrf_token %}
+                <pre class="tab">        1   2   3   4   5</pre>
+                <label for="rev_score">Rating:
+                    <input type="range" name="rev_score" id="rev_score" min="1" max="5" value="3">
+                </label>
+                <br>
+                <label for="rev_text">Review:
+                    <textarea rows="4" cols="50" name="rev_text" id="rev_text" form="rev_add"></textarea>
+                </label>
+                <br>
+                <input type="hidden" name="curuser" value="{{request.session.curuser}}">
+                <br>
+                <input type="hidden" name="movie" value="{{movie.id}}">
+                <input type="submit" value="Add Review">
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
