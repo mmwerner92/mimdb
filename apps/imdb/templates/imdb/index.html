@@ -73,6 +73,18 @@
             <hr>
 
             <!-- API Entries -->
+            <h3>Upcoming Movies</h3>
+            <div id="upcoming_movies">
+                {% for fmovie in futmovies.results|slice:"5" %}
+                <li>
+                    <a href="/{{fmovie.id}}">
+                        <img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}" alt="{{fmovie.original_title}}">
+                    </a>
+                </li>
+                {% endfor %}
+            </div>
+
+            <hr>
             <h3>Now Playing</h3>
             <div id="current_movies">
                 {% for movie in curmovies.results|slice:"5" %}

@@ -56,15 +56,7 @@ class Movie(models.Model):
     watchlist = models.ManyToManyField(Users, related_name="watchlist")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    # mov_title = models.CharField(max_length=255)
-    # mov_img = models.CharField(max_length=255)
-    # mov_release = models.DateField()
-    # mov_director = models.CharField(max_length=255)
-    # mov_descript = models.TextField()
-    # watchlist = models.ManyToManyField(Users, related_name="watchlist")
-    # created_at = models.DateTimeField(auto_now_add = True)
-    # updated_at = models.DateTimeField(auto_now = True)
-    # objects = MovManager()
+
 
 class Review(models.Model):
     rev_text = models.TextField()
