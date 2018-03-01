@@ -1,0 +1,41 @@
+
+#main-content {
+    margin-top: 150px; 
+    height: auto;
+}
+#login-box {
+    border: 1px solid rgb(182, 182, 182);
+    display: inline-block;
+    width: 290px;
+    height: auto;
+    padding: 0px;
+}
+#login-box label {
+    font-size: smaller;
+    margin-bottom: 0;
+    font-weight: bolder;
+}
+#login-box img {
+    margin-left: 95px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+form {
+    margin-left: 20px;
+}
+input, button {
+    width: 250px;
+}
+h3, h6 {
+    text-align: center;
+    padding-left: -20px;
+}
+/* input[type="password"] {
+    width: 250px;
+}
+input[type="submit"] {
+    width: 250px;
+} */
+/* button {
+    width: 250px;
+} */

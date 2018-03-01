@@ -1,5 +1,5 @@
 
-{% for i in response.results %}
+{% for i in response.results|slice:"5" %}
 <ul>
     
     {% if i.original_title %}

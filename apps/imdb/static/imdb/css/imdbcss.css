@@ -17,8 +17,16 @@ body {
     margin-bottom: 0px;
 }
 a {
-    color: #222222;
+    /* color: #222222; */
+    /* color:  */
 }
+a:visited{
+    color: skyblue;
+}
+pre{
+    color: white;
+}
+
 #movies {
     vertical-align: top;
 }

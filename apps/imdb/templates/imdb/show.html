@@ -70,9 +70,18 @@
                 </form>
             </div>
 
-            <li>{{movie.original_title}}</li>
-            <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
-            <br> {{movie.id}}
+            <li><h2>{{movie.original_title}}</h2></li>
+            <img src="https://image.tmdb.org/t/p/w185/{{movie.poster_path}}">
+            <br> 
+            Summary: {{movie.overview}}
+            <br> 
+            Revenue: ${{movie.revenue}}
+            <br> 
+            <a href ="{{movie.homepage}}">Movie Page</a>
+            <br> 
+            Released: {{movie.release_date}}
+            <br>
+            Budget: ${{movie.budget}}
             <br>
             <a href="/{{movie.id}}">View</a>
             <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
@@ -100,7 +109,7 @@
             {% endif %}
             <form action='/{{movie.id}}/add_review' method="POST" id="rev_add">
                 {% csrf_token %}
-                <pre class="tab">        1   2   3   4   5</pre>
+                <pre class="tab">       1   2   3   4   5</pre>
                 <label for="rev_score">Rating:
                     <input type="range" name="rev_score" id="rev_score" min="1" max="5" value="3">
                 </label>
@@ -114,6 +123,13 @@
                 <input type="hidden" name="movie" value="{{movie.id}}">
                 <input type="submit" value="Add Review">
             </form>
+        </div>
+        <div id="simmovies">
+            {% for movie in simmovies.results|slice:"5" %}
+                <li>
+                    <a href="/{{movie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="{{movie.original_title}}"></a> 
+                </li>
+            {% endfor %}
         </div>
     </div>
 </body>

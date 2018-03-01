@@ -11,9 +11,17 @@ from django.core import serializers
 
 
 def index(request):
+    url = "https://api.themoviedb.org/3/movie/now_playing?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
+    strcurmovies = requests.get(url).content
+    curmovies = json.loads(strcurmovies)
+    url2 = "https://api.themoviedb.org/3/movie/top_rated?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1"
+    strtopmovies = requests.get(url2).content
+    topmovies =  json.loads(strtopmovies)
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
+            "curmovies":curmovies,
+            "topmovies":topmovies,
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -21,6 +29,8 @@ def index(request):
         }
     else:
         context = {
+            "curmovies":curmovies,
+            "topmovies":topmovies,
             "reg":"reg/",
             "label":"Log In"
         }
@@ -83,9 +93,15 @@ def show(request, id):
     strresponse = requests.get(url).content
     movie = json.loads(strresponse)
     reviews = Review.objects.filter(movie=id)
+    simurl = "https://api.themoviedb.org/3/movie/"+id+"/similar?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1"
+    strsim = requests.get(simurl).content
+    simmovies = json.loads(strsim)
+    movie["budget"]="{:,}".format(movie["budget"])
+    movie["revenue"]="{:,}".format(movie["revenue"])
     if 'curuser' in request.session:
         context = {
             "movie":movie,
+            "simmovies":simmovies,
             "reviews":reviews,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -94,6 +110,7 @@ def show(request, id):
     else:
         context = {
             "movie":movie,
+            "simmovies":simmovies,
             "reviews":reviews,
             "reg":"reg/",
             "label":"Log In"
