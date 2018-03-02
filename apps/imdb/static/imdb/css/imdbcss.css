@@ -34,15 +34,24 @@ pre{
 #search {
     width: 400px;
 }
-#searches {
-    
-    height: 200px;
-    width: 250px;
+
+
+#auto-searches {
+    background-color: #fff;
+    color:#000;
+    height: auto;
+    width: 338px;
     position: absolute;
     display: inline-block;
     top: 70;
-    left: 427px;
+    left: 407px;
 }
+@media only screen and (max-width: 1190px) {
+    #auto-searches {
+        left:342px;
+    }
+}
+
 #main-content form {
     margin-block-end: 0px;
 }
@@ -76,6 +85,9 @@ select, option {
     list-style: none;
     margin: 6px;
 }
+#simmovie {
+    margin: 4px;
+}
 #top_movies p {
     text-align-last: center;
 }
@@ -86,4 +98,13 @@ select, option {
     text-align-last: center;
     margin: 7px;
 
+}
+#watch-list p{
+    font-size: x-small;
+    text-align: center;
+}
+
+.movie-reviews {
+    display: inline-block;
+    vertical-align: top;
 }
