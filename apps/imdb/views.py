@@ -34,7 +34,7 @@ def index(request):
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
-            "curuser":request.session['curuser']
+            "curuser":request.session['curuser'],
         }
     else:
         context = {
@@ -153,10 +153,15 @@ def toprated(request):
     return render(request, 'imdb/toprated.html', context)
 
 def search(request):
+    error = []
     title = request.POST['search'].replace(' ', '+')
-    url = "https://api.themoviedb.org/3/search/"+request.POST["search_option"]+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&query="+title+"&page=1"
-    strresponse = requests.get(url).content
-    response = json.loads(strresponse)
+    if len(title) == 0:
+        error.append("If you don't search anything, you don't get anything!")
+        response = error
+    else:
+        url = "https://api.themoviedb.org/3/search/"+request.POST["search_option"]+"?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&query="+title+"&page=1"
+        strresponse = requests.get(url).content
+        response = json.loads(strresponse)
     if 'curuser' in request.session:
         context = {
             "response" : response,

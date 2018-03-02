@@ -45,6 +45,7 @@ pre{
     display: inline-block;
     top: 70;
     left: 407px;
+    z-index : 2;
 }
 @media only screen and (max-width: 1190px) {
     #auto-searches {
@@ -115,4 +116,9 @@ select, option {
 
 .reviews {
     margin: 20px;
+}
+
+li.dropdown_results{
+    list-style-type: none;
+    display: inline-block;
 }

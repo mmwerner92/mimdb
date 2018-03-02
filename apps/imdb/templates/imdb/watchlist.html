@@ -59,7 +59,9 @@
                         <img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" />
                     </button>
                 </form>
+                <div class = "movies-horz" id='auto-searches'>
 
+                </div>
                 <div id='searches'>
 
                 </div>
@@ -90,7 +92,7 @@
                 {% for rev,val in rev_list.iteritems %}
                 <div class="reviews">
                     <div class='movie-reviews'>
-                        <a class = "movie-reviews" href="/{{val.movie}}/rm_list"><img class = "movie-reviews" src="https://image.tmdb.org/t/p/w92/{{rev}}"></a>   
+                        <a class = "movie-reviews" href="/{{val.movie}}"><img class = "movie-reviews" src="https://image.tmdb.org/t/p/w92/{{rev}}"></a>   
                     </div>
                     <div class='movie-reviews'>
                         <br>Rating: {{val.rev_score}}/5<br>
@@ -115,7 +117,7 @@
             method: 'post',
             data: $(this).parent().serialize(),
             success: function (serverResponse) {
-                $('#searches').html(serverResponse)
+                $('#auto-searches').html(serverResponse)
             }
         })
     });

@@ -59,7 +59,9 @@
                         <img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" />
                     </button>
                 </form>
+                <div class = "movies-horz" id='auto-searches'>
 
+                </div>
                 <div id='searches'>
 
                 </div>
@@ -77,21 +79,20 @@
 
             </div>
             <ul class = "">
-            {% for movie in response.results %}
-           
+            {% if response.results %}   
+                {% for movie in response.results %}
+                    
+                    <li class="horz movieimgs searchres">
+                    <a href="/{{tmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}"></a>
+                    <br>
+                    {{movie.original_title}}<br>
+                    <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
+                    </li>
 
-                {% if movie.original_title and movie.poster_path %}
-
-                <li class="horz movieimgs searchres">
-                <a href="/{{tmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}"></a>
-                <br>
-                {{movie.original_title}}<br>
-                <a href="/{{movie.id}}/add_list">Add to Watchlist</a>
-                </li>
-                {% endif %}
-
-            
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <h1>{{response.0}}</h1>
+            {% endif %}
             </ul>
         </div>
     </div>
@@ -111,7 +112,7 @@
             method: 'post',
             data: $(this).parent().serialize(),
             success: function (serverResponse) {
-                $('#searches').html(serverResponse)
+                $('#auto-searches').html(serverResponse)
             }
         })
     });

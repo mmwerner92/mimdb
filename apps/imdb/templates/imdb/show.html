@@ -21,7 +21,7 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="background-image:url('https://image.tmdb.org/t/p/original/{{movie.backdrop_path}}')">
 
     <div id="wrapper" class="container">
         <div id="main-content" class="">
@@ -57,6 +57,9 @@
                         <img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" />
                     </button>
                 </form>
+                <div class = "movies-horz" id='auto-searches'>
+
+                </div>
 
                 <div id='searches'>
 
@@ -147,7 +150,7 @@
             method: 'post',
             data: $(this).parent().serialize(),
             success: function (serverResponse) {
-                $('#searches').html(serverResponse)
+                $('#auto-searches').html(serverResponse)
             }
         })
     });

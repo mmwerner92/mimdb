@@ -1,18 +1,22 @@
 
 {% for i in response.results|slice:"5" %}
 <ul>
-    
-    {% if i.original_title %}
 
-    <li>{{i.original_title}}</li>
+    {% if i.original_title %}
+    
+        {% if i.poster_path %}
+        <a href="/{{i.id}}"><li class="dropdown_results"><img src="https://image.tmdb.org/t/p/w92/{{i.poster_path}}" alt="{{i.poster_path}}"></li>
+        {% endif %}
+
+    <a href="/{{i.id}}"><li class="dropdown_results">{{i.original_title}}</li></a>
     
     {% elif i.name %}
     
-    <li>{{i.name}}</li>
+    <li class="dropdown_results">{{i.name}}</li>
     
     {% elif i.title %}
 
-    <li>{{i.title}}</li>
+    <li class="dropdown_results">{{i.title}}</li>
 
     {% endif %}
     

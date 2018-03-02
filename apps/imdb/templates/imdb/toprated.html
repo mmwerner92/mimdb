@@ -59,7 +59,9 @@
                         <img class="search" src="{% static "imdb/images/search.jpg" %}" alt="Home" />
                     </button>
                 </form>
+                <div class = "movies-horz" id='auto-searches'>
 
+                </div>
                 <div id='searches'>
 
                 </div>
@@ -112,7 +114,7 @@
             method: 'post',
             data: $(this).parent().serialize(),
             success: function (serverResponse) {
-                $('#searches').html(serverResponse)
+                $('#auto-searches').html(serverResponse)
             }
         })
     });
