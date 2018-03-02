@@ -64,7 +64,6 @@ def watchlist(request):
             strresponse = requests.get(url).content
             movie = [json.loads(strresponse)]
             mov_list+=movie
-        print rev_list
         context = {
             "rev_list":rev_list,
             "mov_list":mov_list,
@@ -85,10 +84,12 @@ def upcoming(request):
     url3 = "https://api.themoviedb.org/3/movie/upcoming?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
     strfutmovies = requests.get(url3).content
     futmovies =  json.loads(strfutmovies)
+    background = random.choice(futmovies['results'])
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
             "futmovies":futmovies,
+            "background": background,
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -97,6 +98,7 @@ def upcoming(request):
     else:
         context = {
             "futmovies":futmovies,
+            "background": background,
             "reg":"reg/",
             "label":"Log In"
         }
@@ -106,10 +108,12 @@ def current(request):
     url = "https://api.themoviedb.org/3/movie/now_playing?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1&region=us"
     strcurmovies = requests.get(url).content
     curmovies = json.loads(strcurmovies)
+    background = random.choice(curmovies['results'])
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
             "curmovies":curmovies,
+            "background": background,
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -118,6 +122,7 @@ def current(request):
     else:
         context = {
             "curmovies":curmovies,
+            "background": background,
             "reg":"reg/",
             "label":"Log In"
         }
@@ -127,10 +132,12 @@ def toprated(request):
     url2 = "https://api.themoviedb.org/3/movie/top_rated?api_key=1a1ef1aa4b51f19d38e4a7cb134a5699&language=en-US&page=1"
     strtopmovies = requests.get(url2).content
     topmovies =  json.loads(strtopmovies)
+    background = random.choice(topmovies['results'])
     if 'curuser' in request.session:
         users = Users.objects.all ()
         context = {
             "topmovies":topmovies,
+            "background": background,
             "users":users,
             "reg":"reg/logout",
             "label":"Log Out",
@@ -139,6 +146,7 @@ def toprated(request):
     else:
         context = {
             "topmovies":topmovies,
+            "background": background,
             "reg":"reg/",
             "label":"Log In"
         }

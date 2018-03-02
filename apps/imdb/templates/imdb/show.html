@@ -44,7 +44,7 @@
                     <!-- <input type="search" name="search" id="ajax_search"> -->
 
                     <input id="ajax_search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
-                        value="">
+                        value="" autocomplete="off">
 
 
 
@@ -132,5 +132,21 @@
         </div>
     </div>
 </body>
+<script>
 
+    $('.ajax_form').submit(function (e) {
+        //   e.preventDefault()
+    })
+    $('#ajax_search').keyup(function () {
+        var search_option = $('#searchselect').val()
+        $.ajax({
+            url: '/search/' + search_option + '/',
+            method: 'post',
+            data: $(this).parent().serialize(),
+            success: function (serverResponse) {
+                $('#searches').html(serverResponse)
+            }
+        })
+    });
+</script>
 </html>

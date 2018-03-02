@@ -21,7 +21,7 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="background-image:url('https://image.tmdb.org/t/p/original/{{background.poster_path}}')">
 
     <div id="wrapper" class="container">
         <div id="main-content" class="">
@@ -44,7 +44,7 @@
                     <!-- <input type="search" name="search" id="ajax_search"> -->
 
                     <input id="ajax_search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
-                        value="">
+                        value="" autocomplete="off">
 
 
 
@@ -78,17 +78,13 @@
             </div>
             <ul class = "">
             {% for fmovie in futmovies.results %}
-           
-                {% if fmovie.original_title and fmovie.poster_path %}
-
                 <li class="horz movieimgs searchres">
                 <a href="/{{fmovie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{fmovie.poster_path}}"></a>
                 <br>
                 {{fmovie.original_title}}<br>
+                {{fmovie.release_date}}<br>
                 <a href="/{{fmovie.id}}/add_list">Add to Watchlist</a>
                 </li>
-                {% endif %}
-
             {% endfor %}
             </ul>
         </div>
@@ -97,5 +93,21 @@
 
 
 </body>
+<script>
 
+    $('.ajax_form').submit(function (e) {
+        //   e.preventDefault()
+    })
+    $('#ajax_search').keyup(function () {
+        var search_option = $('#searchselect').val()
+        $.ajax({
+            url: '/search/' + search_option + '/',
+            method: 'post',
+            data: $(this).parent().serialize(),
+            success: function (serverResponse) {
+                $('#searches').html(serverResponse)
+            }
+        })
+    });
+</script>
 </html>
