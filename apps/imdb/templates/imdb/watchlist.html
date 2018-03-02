@@ -73,49 +73,31 @@
             <hr>
 
             <!-- API Entries -->
-            <h2>YOU LIKE THESE MOVIES</h2>
-            <table>
-                <tr>
-                    <th>Image</th>
-                    <th>Title</th>
-                    <th>Options</th>
-                </tr>
-                {% for movie in mov_list %}
-                <tr>
-                    <td>
-                        <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}">
-                    </td>
-                    <td>{{movie.title}}</td>
-                    <td>
-                        <a href="/{{movie.id}}">View</a>
-                        <a href="/{{movie.id}}/rm_list">Remove from Watchlist</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div id="watch-list">
+                <h3>Your Watchlist</h3>
+                    {% for movie in mov_list %}
+                <div class="horz">
+                        <a href="/{{movie.id}}"><img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}"></a>
+                        <!--p>{{movie.title}}</p-->                   
+                        <!--a href="/{{movie.id}}">View</a-->
+                        <p ><a href="/{{movie.id}}/rm_list">Remove from Watchlist</a></p>
+                </div>    
+                    {% endfor %}
+            </div>
 
-            <h2>YOU LEFT THESE REVIEWS</h2>
-            <table>
-                <tr>
-                    <th>Image</th>
-                    <th>Rating</th>
-                    <th>Review</th>
-                    <th>Options</th>
-                </tr>
+<br><h3>Your Reviews</h3>
+            
                 {% for rev,val in rev_list.iteritems %}
-                <tr>
-                    <td>
-                        <img src="https://image.tmdb.org/t/p/w92/{{rev}}">
-                    </td>
-                    <td>{{val.rev_score}}/5</td>
-                    <td>{{val.rev_text}}</td>
-                    <td>
-                        <a href="/{{rev}}">View</a>
+                    <div class='movie-reviews'>
+                        <a class = "movie-reviews" href="/{{val.movie}}/rm_list"><img class = "movie-reviews" src="https://image.tmdb.org/t/p/w92/{{rev}}"></a>   
+                    </div>
+                    <div class='movie-reviews'>
+                        <br>Rating: {{val.rev_score}}/5<br>
+                        {{val.rev_text}} <br>      
                         <a href="/{{rev.movie}}/{{rev.id}}/rm_review">Delete</a>
-                    </td>
-                </tr>
+                    </div>
+                 
                 {% endfor %}
-            </table>
 
         </div>
     </div>

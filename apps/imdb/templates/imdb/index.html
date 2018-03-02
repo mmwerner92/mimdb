@@ -60,7 +60,7 @@
                     </button>
                 </form>
 
-                <div class = "movies-horz" id='searches'>
+                <div class = "movies-horz" id='auto-searches'>
 
                 </div>
 
@@ -126,7 +126,7 @@
             method: 'post',
             data: $(this).parent().serialize(),
             success: function (serverResponse) {
-                $('#searches').html(serverResponse)
+                $('#auto-searches').html(serverResponse)
             }
         })
     });
