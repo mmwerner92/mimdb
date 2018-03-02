@@ -99,6 +99,9 @@ select, option {
     margin: 7px;
 
 }
+#watch-list {
+    padding:20px;
+}
 #watch-list p{
     font-size: x-small;
     text-align: center;
@@ -107,4 +110,9 @@ select, option {
 .movie-reviews {
     display: inline-block;
     vertical-align: top;
+    margin-right:5px;
+}
+
+.reviews {
+    margin: 20px;
 }

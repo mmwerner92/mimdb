@@ -85,9 +85,10 @@
                     {% endfor %}
             </div>
 
-<br><h3>Your Reviews</h3>
+<br><h3 class ="reviews">Your Reviews</h3>
             
                 {% for rev,val in rev_list.iteritems %}
+                <div class="reviews">
                     <div class='movie-reviews'>
                         <a class = "movie-reviews" href="/{{val.movie}}/rm_list"><img class = "movie-reviews" src="https://image.tmdb.org/t/p/w92/{{rev}}"></a>   
                     </div>
@@ -96,7 +97,7 @@
                         {{val.rev_text}} <br>      
                         <a href="/{{rev.movie}}/{{rev.id}}/rm_review">Delete</a>
                     </div>
-                 
+                </div> 
                 {% endfor %}
 
         </div>
