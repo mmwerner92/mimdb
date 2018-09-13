@@ -2,4 +2,6 @@
 
 cd /
 pip install -r requirements.txt
-nohup uwsgi --http :80 --module evaly.wsgi > /dev/null 2>&1 &
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
